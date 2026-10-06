@@ -60,7 +60,9 @@
       padding: max(12px, env(safe-area-inset-top)) 20px 12px;
     }
 
-    .header-inner, main, .footer-inner {
+    .header-inner,
+    main,
+    .footer-inner {
       width: min(1100px, 100%);
       margin-inline: auto;
     }
@@ -123,7 +125,8 @@
       margin-bottom: 22px;
     }
 
-    .nav-button, .button {
+    .nav-button,
+    .button {
       min-height: var(--touch);
       border: 1px solid var(--line);
       border-radius: 13px;
@@ -149,12 +152,16 @@
       border-color: var(--brand);
     }
 
-    .button:active, .nav-button:active { transform: scale(.98); }
+    .button:active,
+    .nav-button:active {
+      transform: scale(.98);
+    }
 
     .step-panel { display: none; }
     .step-panel.active { display: block; }
 
-    .intro, .card {
+    .intro,
+    .card {
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -199,41 +206,63 @@
     .color-pink { background: #ffc9e2; }
     .color-none { background: #edf0f6; }
 
+    /* Gedichtkarten untereinander */
     .poem-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 16px;
     }
 
     .card { padding: 18px; }
-    .card h3 { margin: 0 0 3px; font-size: 1.15rem; }
-    .meta { color: var(--muted); margin-bottom: 14px; }
 
-    .poem-lines { display: grid; gap: 5px; }
+    .card h3 {
+      margin: 0 0 3px;
+      font-size: 1.15rem;
+    }
 
-    .tap-line {
-      display: block;
-      width: 100%;
+    .meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .poem-lines {
+      display: grid;
+      gap: 5px;
+    }
+
+    /* Jede Gedichtzeile bleibt eine eigene Zeile;
+       jedes Wort darin ist einzeln antippbar. */
+    .poem-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2px 4px;
       min-height: 44px;
+      margin: 3px 0;
+      line-height: 1.6;
+    }
+
+    .tap-word {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
       border: 1px solid transparent;
-      border-radius: 9px;
-      padding: 9px 11px;
-      background: #f7f8fc;
+      border-radius: 7px;
+      padding: 5px 3px;
+      background: transparent;
       color: var(--ink);
       text-align: left;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
       cursor: pointer;
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;
     }
 
-    .tap-line:active { transform: scale(.995); }
-    .tap-line.mark-yellow { background: #fff0a6; }
-    .tap-line.mark-blue { background: #b7dcff; }
-    .tap-line.mark-green { background: #bcebc9; }
-    .tap-line.mark-pink { background: #ffc9e2; }
+    .tap-word:active { transform: scale(.97); }
+    .tap-word.mark-yellow { background: #fff0a6; }
+    .tap-word.mark-blue { background: #b7dcff; }
+    .tap-word.mark-green { background: #bcebc9; }
+    .tap-word.mark-pink { background: #ffc9e2; }
 
     .field-grid {
       display: grid;
@@ -243,13 +272,15 @@
 
     .work-card { margin-bottom: 16px; }
 
-    .work-card label, .field-label {
+    .work-card label,
+    .field-label {
       display: block;
       margin-bottom: 7px;
       font-weight: 750;
     }
 
-    select, textarea {
+    select,
+    textarea {
       width: 100%;
       min-height: var(--touch);
       border: 1px solid #cfd4e2;
@@ -319,22 +350,55 @@
 
     @media (max-width: 720px) {
       .step-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .poem-grid, .field-grid, .checklist { grid-template-columns: 1fr; }
+      .field-grid,
+      .checklist { grid-template-columns: 1fr; }
       main { padding-inline: 14px; }
       .app-header { padding-inline: 14px; }
       .nav-button { font-size: .9rem; }
-      .topline { align-items: flex-start; flex-direction: column; gap: 4px; }
+      .topline {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
     }
 
     @media print {
-      body { background: #fff; font-size: 11pt; }
-      .app-header, .step-nav, .palette, .step-controls, footer,
-      .print-hidden, .button { display: none !important; }
-      main { width: 100%; padding: 0; }
-      .step-panel { display: block !important; page-break-before: always; }
+      body {
+        background: #fff;
+        font-size: 11pt;
+      }
+
+      .app-header,
+      .step-nav,
+      .palette,
+      .step-controls,
+      footer,
+      .print-hidden,
+      .button {
+        display: none !important;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .step-panel {
+        display: block !important;
+        page-break-before: always;
+      }
+
       .step-panel:first-of-type { page-break-before: auto; }
-      .card, .intro { box-shadow: none; break-inside: avoid; }
-      textarea, select { border-color: #777; }
+
+      .card,
+      .intro {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      textarea,
+      select { border-color: #777; }
+
       textarea { min-height: 70px; }
     }
   </style>
@@ -351,12 +415,14 @@
       </div>
 
       <div class="progress-row" aria-label="Arbeitsfortschritt">
-        <div class="progress-track"
-             role="progressbar"
-             aria-label="Fortschritt"
-             aria-valuemin="0"
-             aria-valuemax="100"
-             aria-valuenow="0">
+        <div
+          class="progress-track"
+          role="progressbar"
+          aria-label="Fortschritt"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >
           <div class="progress-fill" id="progressFill"></div>
         </div>
         <div class="progress-label" id="progressLabel">Fortschritt: 0 %</div>
@@ -380,19 +446,35 @@
       </button>
     </nav>
 
-    <!-- Schritt 1 -->
+    <!-- Schritt 1: Entdecken und Markieren -->
     <section class="step-panel active" data-step="0">
       <div class="intro">
         <h2>Entdecken und Markieren</h2>
-        <p>Wähle zuerst eine Farbe aus und tippe anschließend auf die Gedichtzeilen, die du markieren möchtest.</p>
-        <p>Erneutes Antippen einer markierten Zeile entfernt die Markierung. Deine Markierungen werden automatisch gespeichert.</p>
+        <p>
+          Wähle zuerst eine Farbe aus und tippe anschließend auf einzelne Wörter,
+          die du markieren möchtest.
+        </p>
+        <p>
+          Erneutes Antippen eines markierten Wortes entfernt die Markierung.
+          Deine Markierungen werden automatisch gespeichert.
+        </p>
 
         <div class="palette" aria-label="Markierfarbe auswählen">
-          <button class="color-button color-yellow" type="button" data-color="yellow" aria-pressed="true">🟨 Gelb</button>
-          <button class="color-button color-blue" type="button" data-color="blue" aria-pressed="false">🟦 Blau</button>
-          <button class="color-button color-green" type="button" data-color="green" aria-pressed="false">🟩 Grün</button>
-          <button class="color-button color-pink" type="button" data-color="pink" aria-pressed="false">🩷 Pink</button>
-          <button class="color-button color-none" type="button" data-color="none" aria-pressed="false">Keine Farbe</button>
+          <button class="color-button color-yellow" type="button" data-color="yellow" aria-pressed="true">
+            🟨 Gelb
+          </button>
+          <button class="color-button color-blue" type="button" data-color="blue" aria-pressed="false">
+            🟦 Blau
+          </button>
+          <button class="color-button color-green" type="button" data-color="green" aria-pressed="false">
+            🟩 Grün
+          </button>
+          <button class="color-button color-pink" type="button" data-color="pink" aria-pressed="false">
+            🩷 Pink
+          </button>
+          <button class="color-button color-none" type="button" data-color="none" aria-pressed="false">
+            Keine Farbe
+          </button>
         </div>
       </div>
 
@@ -404,7 +486,7 @@
       </div>
     </section>
 
-    <!-- Schritt 2 -->
+    <!-- Schritt 2: Zuordnen -->
     <section class="step-panel" data-step="1">
       <div class="intro">
         <h2>Zuordnen</h2>
@@ -419,7 +501,7 @@
       </div>
     </section>
 
-    <!-- Schritt 3 -->
+    <!-- Schritt 3: Vergleichen -->
     <section class="step-panel" data-step="2">
       <div class="intro">
         <h2>Vergleichen</h2>
@@ -437,7 +519,9 @@
       </div>
 
       <div class="card work-card">
-        <label for="development">Entwicklung der Literaturepochen: Wie haben sich Epochen und Merkmale verändert?</label>
+        <label for="development">
+          Entwicklung der Literaturepochen: Wie haben sich Epochen und Merkmale verändert?
+        </label>
         <textarea id="development" data-field="development" placeholder="Deine Überlegungen ..."></textarea>
       </div>
 
@@ -447,7 +531,7 @@
       </div>
     </section>
 
-    <!-- Schritt 4 -->
+    <!-- Schritt 4: Analysieren -->
     <section class="step-panel" data-step="3">
       <div class="intro">
         <h2>Analysieren</h2>
@@ -461,17 +545,29 @@
 
       <div class="card work-card">
         <label for="introduction">Einleitung</label>
-        <textarea id="introduction" data-field="introduction" placeholder="Autor, Titel, Thema und erste Deutung ..."></textarea>
+        <textarea
+          id="introduction"
+          data-field="introduction"
+          placeholder="Autor, Titel, Thema und erste Deutung ..."
+        ></textarea>
       </div>
 
       <div class="card work-card">
         <label for="mainPart">Hauptteil</label>
-        <textarea id="mainPart" data-field="mainPart" placeholder="Untersuche Inhalt, Aufbau, Sprache und ihre Wirkung ..."></textarea>
+        <textarea
+          id="mainPart"
+          data-field="mainPart"
+          placeholder="Untersuche Inhalt, Aufbau, Sprache und ihre Wirkung ..."
+        ></textarea>
       </div>
 
       <div class="card work-card">
         <label for="conclusion">Schluss</label>
-        <textarea id="conclusion" data-field="conclusion" placeholder="Fasse deine Ergebnisse zusammen und beziehe sie auf deine Deutung ..."></textarea>
+        <textarea
+          id="conclusion"
+          data-field="conclusion"
+          placeholder="Fasse deine Ergebnisse zusammen und beziehe sie auf deine Deutung ..."
+        ></textarea>
       </div>
 
       <div class="card work-card">
@@ -481,12 +577,16 @@
 
       <div class="step-controls">
         <button class="button" type="button" data-prev>Zurück</button>
-        <button class="button primary" type="button" data-print>Drucken / als PDF speichern</button>
+        <button class="button primary" type="button" data-print>
+          Drucken / als PDF speichern
+        </button>
       </div>
     </section>
 
     <div class="step-controls print-hidden">
-      <button class="button" type="button" id="resetButton">Alle Eingaben zurücksetzen</button>
+      <button class="button" type="button" id="resetButton">
+        Alle Eingaben zurücksetzen
+      </button>
       <button class="button" type="button" data-print>Drucken / PDF</button>
     </div>
   </main>
@@ -504,7 +604,6 @@
 
       const STORAGE_KEY = "literaturepochen_schueler_v2";
 
-      // Gedichtzeilen nach dem abgebildeten Arbeitsblatt.
       const poems = [
         {
           id: "ein-andres",
@@ -670,7 +769,10 @@
       function loadState() {
         try {
           const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-          if (!saved || typeof saved !== "object") return blankState();
+
+          if (!saved || typeof saved !== "object") {
+            return blankState();
+          }
 
           return {
             ...blankState(),
@@ -691,17 +793,23 @@
 
       function saveState() {
         clearTimeout(saveTimer);
+
         saveTimer = setTimeout(() => {
           try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
             const time = new Date().toLocaleTimeString("de-DE", {
               hour: "2-digit",
               minute: "2-digit"
             });
-            document.getElementById("saveStatus").textContent = "Gespeichert · " + time;
+
+            document.getElementById("saveStatus").textContent =
+              "Gespeichert · " + time;
           } catch {
-            document.getElementById("saveStatus").textContent = "Speichern nicht möglich";
+            document.getElementById("saveStatus").textContent =
+              "Speichern nicht möglich";
           }
+
           updateProgress();
         }, 180);
       }
@@ -724,17 +832,29 @@
           const lines = document.createElement("div");
           lines.className = "poem-lines";
 
-          poem.lines.forEach((text, index) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "tap-line";
-            button.textContent = text;
-            button.dataset.poem = poem.id;
-            button.dataset.line = String(index);
-            button.setAttribute("aria-pressed", "false");
-            button.setAttribute("aria-label", "Zeile " + (index + 1) + ": " + text);
-            button.addEventListener("click", () => markLine(poem.id, index));
-            lines.append(button);
+          poem.lines.forEach((text, lineIndex) => {
+            const line = document.createElement("div");
+            line.className = "poem-line";
+
+            text.trim().split(/\s+/).forEach((word, wordIndex) => {
+              const button = document.createElement("button");
+              button.type = "button";
+              button.className = "tap-word";
+              button.textContent = word;
+              button.dataset.poem = poem.id;
+              button.dataset.line = String(lineIndex);
+              button.dataset.word = String(wordIndex);
+              button.setAttribute("aria-pressed", "false");
+              button.setAttribute("aria-label", "Wort: " + word);
+
+              button.addEventListener("click", () => {
+                markWord(poem.id, lineIndex, wordIndex);
+              });
+
+              line.append(button);
+            });
+
+            lines.append(line);
           });
 
           card.append(heading, meta, lines);
@@ -744,11 +864,10 @@
         refreshMarks();
       }
 
-      function markLine(poemId, lineIndex) {
-        const key = poemId + ":" + lineIndex;
-        const current = state.marks[key];
+      function markWord(poemId, lineIndex, wordIndex) {
+        const key = `${poemId}:${lineIndex}:${wordIndex}`;
 
-        if (current) {
+        if (state.marks[key]) {
           delete state.marks[key];
         } else if (activeColor !== "none") {
           state.marks[key] = activeColor;
@@ -759,8 +878,10 @@
       }
 
       function refreshMarks() {
-        document.querySelectorAll(".tap-line").forEach(button => {
-          const key = button.dataset.poem + ":" + button.dataset.line;
+        document.querySelectorAll(".tap-word").forEach(button => {
+          const key =
+            `${button.dataset.poem}:${button.dataset.line}:${button.dataset.word}`;
+
           const color = state.marks[key];
 
           button.classList.remove(
@@ -770,7 +891,10 @@
             "mark-pink"
           );
 
-          if (color) button.classList.add("mark-" + color);
+          if (color) {
+            button.classList.add("mark-" + color);
+          }
+
           button.setAttribute("aria-pressed", color ? "true" : "false");
         });
       }
@@ -855,6 +979,7 @@
           const input = document.createElement("input");
           input.type = "checkbox";
           input.checked = Boolean(state.checklist[index]);
+
           input.addEventListener("change", () => {
             state.checklist[index] = input.checked;
             saveState();
@@ -871,6 +996,7 @@
       function bindFields() {
         document.querySelectorAll("[data-field]").forEach(field => {
           const key = field.dataset.field;
+
           if (Object.prototype.hasOwnProperty.call(state, key)) {
             field.value = state[key] ?? "";
           }
@@ -909,13 +1035,20 @@
           : 0;
 
         document.getElementById("progressFill").style.width = percent + "%";
-        document.getElementById("progressLabel").textContent = "Fortschritt: " + percent + " %";
-        document.querySelector('[role="progressbar"]').setAttribute("aria-valuenow", String(percent));
+        document.getElementById("progressLabel").textContent =
+          "Fortschritt: " + percent + " %";
+
+        document
+          .querySelector('[role="progressbar"]')
+          .setAttribute("aria-valuenow", String(percent));
       }
 
       function showStep(index) {
         document.querySelectorAll(".step-panel").forEach(panel => {
-          panel.classList.toggle("active", Number(panel.dataset.step) === index);
+          panel.classList.toggle(
+            "active",
+            Number(panel.dataset.step) === index
+          );
         });
 
         document.querySelectorAll(".nav-button").forEach(button => {
@@ -930,7 +1063,9 @@
       }
 
       document.querySelectorAll(".nav-button").forEach(button => {
-        button.addEventListener("click", () => showStep(Number(button.dataset.go)));
+        button.addEventListener("click", () => {
+          showStep(Number(button.dataset.go));
+        });
       });
 
       document.querySelectorAll("[data-next]").forEach(button => {
@@ -952,7 +1087,10 @@
           activeColor = button.dataset.color;
 
           document.querySelectorAll(".color-button").forEach(other => {
-            other.setAttribute("aria-pressed", other === button ? "true" : "false");
+            other.setAttribute(
+              "aria-pressed",
+              other === button ? "true" : "false"
+            );
           });
         });
       });
@@ -962,7 +1100,9 @@
       });
 
       document.getElementById("resetButton").addEventListener("click", () => {
-        if (!window.confirm("Möchtest du wirklich alle gespeicherten Eingaben und Markierungen löschen?")) {
+        if (!window.confirm(
+          "Möchtest du wirklich alle gespeicherten Eingaben und Markierungen löschen?"
+        )) {
           return;
         }
 
@@ -974,7 +1114,9 @@
         renderAnalysisChoices();
         bindFields();
 
-        document.getElementById("saveStatus").textContent = "Eingaben zurückgesetzt";
+        document.getElementById("saveStatus").textContent =
+          "Eingaben zurückgesetzt";
+
         updateProgress();
       });
 
@@ -985,7 +1127,8 @@
       updateProgress();
 
       if (localStorage.getItem(STORAGE_KEY)) {
-        document.getElementById("saveStatus").textContent = "Gespeicherte Arbeit geladen";
+        document.getElementById("saveStatus").textContent =
+          "Gespeicherte Arbeit geladen";
       }
     })();
   </script>
