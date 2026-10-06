@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Literaturepochen im Wandel</title>
+
+<style>
+:root {
+    --accent: #244d80;
+    --accent-light: #eaf0f6;
+    --text: #17283a;
+    --muted: #526476;
+    --border: #dbe2e9;
+    --background: #f4f6f8;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background: var(--background);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+}
+
+header {
+    background: white;
+    border-radius: 14px;
+    padding: 30px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+
+header .subject {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+header h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+}
+
+header p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* Navigation */
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.15s;
+}
+
+.tab:hover {
+    background: var(--accent-light);
+}
+
+.tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* Cards */
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.card h2,
+.card h3 {
+    margin-top: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+@media (max-width: 750px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Buttons */
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background: var(--accent-light);
+}
+
+.btn.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+/* Forms */
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+select,
+textarea,
+input {
+    width: 100%;
+    margin-top: 6px;
+    border: 1px solid #b9c7d5;
+    border-radius: 7px;
+    padding: 10px;
+    background: white;
+    color: var(--text);
+    font: inherit;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+    outline: 2px solid #9eb9d3;
+}
+
+/* Poems */
+
+.poem {
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.75;
+    margin-top: 18px;
+}
+
+.verse {
+    min-height: 29px;
+}
+
+.verse-number {
+    display: inline-block;
+    width: 30px;
+    color: #738394;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.word {
+    display: inline;
+    border: 0;
+    background: transparent;
+    padding: 2px 3px;
+    margin: 0;
+    border-radius: 4px;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+.word:hover {
+    background: #eef3f8;
+}
+
+/* Marking colors */
+
+.word.yellow {
+    background: #ffed9b;
+}
+
+.word.blue {
+    background: #bfe3ff;
+}
+
+.word.green {
+    background: #d8efc5;
+}
+
+.word.pink {
+    background: #fbd2df;
+}
+
+.word.purple {
+    background: #ded5fc;
+}
+
+.word.orange {
+    background: #ffd2a3;
+}
+
+.color-button.selected {
+    box-shadow: 0 0 0 3px #b9cde1;
+}
+
+/* Epoch pills */
+
+.pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.pill {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #eef3f8;
+    font-size: 13px;
+}
+
+/* Result */
+
+.result {
+    white-space: pre-wrap;
+    background: #f7f9fc;
+    border-left: 4px solid var(--accent);
+    padding: 14px;
+    line-height: 1.6;
+}
+
+/* Progress */
+
+.progress {
+    height: 7px;
+    background: #e4e9ee;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 25%;
+    transition: width 0.2s;
+}
+
+/* Checklist */
+
+.checklist {
+    list-style: none;
+    padding: 0;
+}
+
+.checklist li {
+    margin: 9px 0;
+}
+
+.checklist input {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Hide sections */
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* Notification */
+
+#saveMessage {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #17283a;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: none;
+    z-index: 1000;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <div class="subject">Deutsch · Q1 · Literaturgeschichte</div>
+
+    <h1>Literaturepochen im Wandel</h1>
+
+    <p>
+        Fünf Gedichte, fünf Literaturepochen.
+        Entdecke typische Merkmale, ordne die Texte zu,
+        vergleiche deine Ergebnisse und verfasse anschließend
+        eine eigene Analyse.
+    </p>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+</header>
+
+
+<!-- NAVIGATION -->
+
+<nav class="tabs">
+
+    <button class="tab active" data-section="1">
+        1 · Entdecken
+    </button>
+
+    <button class="tab" data-section="2">
+        2 · Zuordnen
+    </button>
+
+    <button class="tab" data-section="3">
+        3 · Vergleichen
+    </button>
+
+    <button class="tab" data-section="4">
+        4 · Analysieren
+    </button>
+
+</nav>
+
+
+<!-- ========================================================= -->
+<!-- 1. ENTDECKEN -->
+<!-- ========================================================= -->
+
+<section class="section active" id="section1">
+
+    <div class="card">
+
+        <h2>1. Entdecken & Markieren</h2>
+
+        <p>
+            Lies die Gedichte aufmerksam.
+            Markiere Wörter oder Verse, die dir bei der
+            Bestimmung der Literaturepoche helfen.
+        </p>
+
+        <p class="muted">
+            Klicke zunächst auf eine Farbe und anschließend
+            auf Wörter. Ein Klick auf die Versnummer markiert
+            den gesamten Vers.
+        </p>
+
+        <div class="actions">
+
+            <button class="btn color-button selected"
+                    data-color="yellow">
+                Gelb
+            </button>
+
+            <button class="btn color-button"
+                    data-color="blue">
+                Blau
+            </button>
+
+            <button class="btn color-button"
+                    data-color="green">
+                Grün
+            </button>
+
+            <button class="btn color-button"
+                    data-color="pink">
+                Rosa
+            </button>
+
+            <button class="btn color-button"
+                    data-color="purple">
+                Violett
+            </button>
+
+            <button class="btn color-button"
+                    data-color="orange">
+                Orange
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div id="poems"></div>
+
+
+    <div class="actions">
+
+        <button class="btn primary" data-next="2">
+            Weiter zum Zuordnen →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- 2. ZUORDNEN -->
+<!-- ========================================================= -->
+
+<section class="section" id="section2">
+
+    <div class="card">
+
+        <h2>2. Literaturepochen zuordnen</h2>
+
+        <p>
+            Ordne jedes Gedicht einer Literaturepoche zu.
+            Begründe deine Entscheidung anhand konkreter
+            Beobachtungen aus dem Text.
+        </p>
+
+    </div>
+
+
+    <div id="assignments" class="grid"></div>
+
+
+    <div class="card">
+
+        <h3>Toolbox · Dichter und Jahre</h3>
+
+        <div class="pills">
+
+            <span class="pill">
+                Theodor Storm · 1853
+            </span>
+
+            <span class="pill">
+                Heinrich Heine · 1844
+            </span>
+
+            <span class="pill">
+                Jakob van Hoddis · 1911
+            </span>
+
+            <span class="pill">
+                Arno Holz · 1886
+            </span>
+
+            <span class="pill">
+                Joseph von Eichendorff · 1835
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button class="btn" data-next="1">
+            ← Zurück
+        </button>
+
+        <button class="btn primary" data-next="3">
+            Weiter zum Vergleichen →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- 3. VERGLEICHEN -->
+<!-- ========================================================= -->
+
+<section class="section" id="section3">
+
+    <div class="card">
+
+        <h2>3. Vergleichen</h2>
+
+        <p>
+            Vergleiche deine Zuordnungen.
+            Welche Merkmale haben dich zu deiner Entscheidung
+            geführt? Wo bist du unsicher?
+        </p>
+
+    </div>
+
+
+    <div id="summary" class="grid"></div>
+
+
+    <div class="card">
+
+        <label for="reflection">
+            Was hat sich bei deinen Zuordnungen verändert?
+        </label>
+
+        <textarea
+            id="reflection"
+            placeholder="Vergleiche beispielsweise zwei Epochen. Wie verändert sich der Blick auf Natur, Gesellschaft, Stadt oder Individuum?">
+        </textarea>
+
+
+        <label for="question">
+            Deine offene Frage
+        </label>
+
+        <textarea
+            id="question"
+            placeholder="Welche Zuordnung oder welches Merkmal möchtest du im Unterricht besprechen?">
+        </textarea>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button class="btn" data-next="2">
+            ← Zuordnung überarbeiten
+        </button>
+
+        <button class="btn primary" data-next="4">
+            Weiter zur Analyse →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- 4. ANALYSE -->
+<!-- ========================================================= -->
+
+<section class="section" id="section4">
+
+    <div class="card">
+
+        <h2>4. Analyse</h2>
+
+        <p>
+            Wähle ein Gedicht und ein Vergleichsbild.
+            Schreibe anschließend deine Analyse.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <label for="analysisPoem">
+            Unser Gedicht
+        </label>
+
+        <select id="analysisPoem">
+
+            <option value="">
+                Bitte wählen
+            </option>
+
+            <option value="1">
+                1 · Ein Andres
+            </option>
+
+            <option value="2">
+                2 · Mondnacht
+            </option>
+
+            <option value="3">
+                3 · Weltende
+            </option>
+
+            <option value="4">
+                4 · Die Stadt
+            </option>
+
+            <option value="5">
+                5 · Doctrin
+            </option>
+
+        </select>
+
+
+        <label for="analysisPicture">
+            Unser Vergleichsbild
+        </label>
+
+        <select id="analysisPicture">
+
+            <option value="">
+                Bitte wählen
+            </option>
+
+            <option value="A">Bild A</option>
+            <option value="B">Bild B</option>
+            <option value="C">Bild C</option>
+            <option value="D">Bild D</option>
+            <option value="E">Bild E</option>
+
+        </select>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Teil 1 · Gedichtanalyse</h3>
+
+        <p class="muted">
+            Entwickle eine Deutungshypothese.
+            Untersuche Inhalt, Aufbau, Sprechsituation,
+            Sprache und Form. Begründe anschließend die
+            Epochenzuordnung mit Textbelegen.
+        </p>
+
+        <textarea
+            id="analysis"
+            style="min-height:300px"
+            placeholder="Einleitung und Deutungshypothese ...
+
+Inhalt und Aufbau ...
+
+Sprechsituation ...
+
+Form und Metrum ...
+
+Sprache und rhetorische Mittel ...
+
+Wirkung ...
+
+Epochenmerkmale und Textbelege ...
+
+Fazit ...">
+        </textarea>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Teil 2 · Vergleich mit einem Bild</h3>
+
+        <p class="muted">
+            Vergleiche Motive, Menschenbild, Weltbild,
+            Stimmung und Gestaltung. Verknüpfe deine
+            Beobachtungen mit konkreten Text- und Bilddetails.
+        </p>
+
+        <textarea
+            id="comparison"
+            style="min-height:250px"
+            placeholder="Gemeinsamkeit ...
+
+Unterschied ...
+
+Textbeleg ...
+
+Bilddetail ...
+
+Bedeutung für die jeweilige Epoche ...">
+        </textarea>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Vor dem Abgeben prüfen</h3>
+
+        <ul class="checklist">
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Klare Deutungshypothese formuliert?
+                </label>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Inhalt und Aufbau untersucht?
+                </label>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Sprachliche Mittel erklärt und nicht nur aufgezählt?
+                </label>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Versnummern als Textbelege verwendet?
+                </label>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Epochenzuordnung begründet?
+                </label>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Bilddetails konkret beschrieben?
+                </label>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Gemeinsamkeiten und Unterschiede erklärt?
+                </label>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox">
+                    Schlussfolgerung formuliert?
+                </label>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button class="btn" data-next="3">
+            ← Zurück
+        </button>
+
+        <button class="btn primary" id="saveButton">
+            Arbeit speichern
+        </button>
+
+        <button class="btn" id="printButton">
+            Drucken / PDF
+        </button>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<div id="saveMessage">
+    Arbeit gespeichert.
+</div>
+
+
+<script>
+
+/* ============================================================
+   DATEN
+   ============================================================ */
+
+const poems = [
+
+    {
+        id: "1",
+        title: "Ein Andres",
+        author: "Theodor Storm",
+        epoch: "Naturalismus",
+
+        text: [
+            "Fünf wurmzernagte Stiegen geht’s hinauf",
+            "Ins letzte Stockwerk einer Miethskaserne;",
+            "Hier hält der Nordwind sich am liebsten auf",
+            "Und durch das Dachwerk schaun des Himmels Sterne.",
+            "",
+            "Was sie erspähn, o, es ist grad genug,",
+            "Um mit dem Elend brüderlich zu weinen:",
+            "Ein Stückchen Schwarzbrod und ein Wasserkrug,",
+            "Ein Werktisch und ein Schemel mit drei Beinen.",
+            "",
+            "Das Fenster ist vernagelt durch ein Brett",
+            "Und doch durchpfeift der Wind es hin und wieder,",
+            "Und dort auf jenem strohgestopften Bett",
+            "Liegt fieberkrank ein junges Weib darnieder.",
+            "",
+            "Drei kleine Kinder stehn um sie herum,",
+            "Die stieren Blicks an ihren Zügen hangen,",
+            "Vor vielem Weinen ward ihr Mündlein stumm",
+            "Und keine Thräne mehr netzt ihre Wangen.",
+            "",
+            "Ein Stümpfchen Talglicht giebt nur trüben Schein,",
+            "Doch horch, es klopft, was mag das nur bedeuten?",
+            "Es klopft und durch die Thür tritt nun herein",
+            "Ein junger Herr, geführt von Nachbarsleuten.",
+            "",
+            "Der Armenhilfsarzt ist’s aus dem Revier,",
+            "Den sie geholt aus Mitleid mit der Kranken,",
+            "Indess ihr Mann in Branntwein und in Bier",
+            "Sich selbst betäubt und seine Wuthgedanken.",
+            "",
+            "Der junge Doctor aber nimmt das Licht",
+            "Und tritt mit ihm ans Bett des armen Weibes,",
+            "Doch gelb wie Wachs und spitz ist ihr Gesicht",
+            "Und kalt und starr die Glieder ihres Leibes.",
+            "",
+            "Da schluchzt sein Herz, indess das Licht verkohlt,",
+            "Von nie gekannter Wehmuth überschlichen:",
+            "Weint, Kinder, weint! ich bin zu spät geholt,",
+            "Denn eure Mutter ist bereits – verblichen!"
+        ]
+    },
+
+    {
+        id: "2",
+        title: "Mondnacht",
+        author: "Joseph von Eichendorff",
+        epoch: "Romantik",
+
+        text: [
+            "Es war, als hätt’ der Himmel",
+            "Die Erde still geküßt,",
+            "Daß sie im Blütenschimmer",
+            "Von ihm nun träumen müßt’.",
+            "",
+            "Die Luft ging durch die Felder,",
+            "Die Aehren wogten sacht,",
+            "Es rauschten leis die Wälder,",
+            "So sternklar war die Nacht.",
+            "",
+            "Und meine Seele spannte",
+            "Weit ihre Flügel aus,",
+            "Flog durch die stillen Lande,",
+            "Als flöge sie nach Haus."
+        ]
+    },
+
+    {
+        id: "3",
+        title: "Weltende",
+        author: "Jakob van Hoddis",
+        epoch: "Expressionismus",
+
+        text: [
+            "Dem Bürger fliegt vom spitzen Kopf der Hut,",
+            "In allen Lüften hallt es wie Geschrei.",
+            "Dachdecker stürzen ab und gehn entzwei",
+            "Und an den Küsten – liest man – steigt die Flut.",
+            "",
+            "Der Sturm ist da, die wilden Meere hupfen",
+            "An Land, um dicke Dämme zu zerdrücken.",
+            "Die meisten Menschen haben einen Schnupfen.",
+            "Die Eisenbahnen fallen von den Brücken."
+        ]
+    },
+
+    {
+        id: "4",
+        title: "Die Stadt",
+        author: "Arno Holz",
+        epoch: "Poetischer Realismus",
+
+        text: [
+            "Am grauen Strand, am grauen Meer",
+            "Und seitab liegt die Stadt;",
+            "Der Nebel drückt die Dächer schwer,",
+            "Und durch die Stille braust das Meer",
+            "Eintönig um die Stadt.",
+            "",
+            "Es rauscht kein Wald, es schlägt im Mai",
+            "Kein Vogel ohn’ Unterlaß;",
+            "Die Wandergans mit hartem Schrei",
+            "Nur fliegt in Herbstesnacht vorbei,",
+            "Am Strande weht das Gras.",
+            "",
+            "Doch hängt mein ganzes Herz an dir,",
+            "Du graue Stadt am Meer;",
+            "Der Jugend Zauber für und für",
+            "Ruht lächelnd doch auf dir, auf dir,",
+            "Du graue Stadt am Meer."
+        ]
+    },
+
+    {
+        id: "5",
+        title: "Doctrin",
+        author: "Heinrich Heine",
+        epoch: "Vormärz",
+
+        text: [
+            "Schlage die Trommel und fürchte dich nicht,",
+            "Und küsse die Marketenderin!",
+            "Das ist die ganze Wissenschaft,",
+            "Das ist der Bücher tiefster Sinn.",
+            "",
+            "Trommle die Leute aus dem Schlaf,",
+            "Trommle Reveilje mit Jugendkraft,",
+            "Marschire trommelnd immer voran,",
+            "Das ist die ganze Wissenschaft.",
+            "",
+            "Das ist die Hegel’sche Philosophie,",
+            "Das ist der Bücher tiefster Sinn!",
+            "Ich hab’ sie begriffen, weil ich gescheidt,",
+            "Und weil ich ein guter Tambour bin."
+        ]
+    }
+
+];
+
+
+/* ============================================================
+   GRUNDZUSTAND
+   ============================================================ */
+
+let selectedColor = "yellow";
+
+const epochs = [
+    "Romantik",
+    "Vormärz",
+    "Poetischer Realismus",
+    "Naturalismus",
+    "Expressionismus"
+];
+
+
+/* ============================================================
+   GEDICHTE ERZEUGEN
+   ============================================================ */
+
+const poemsContainer =
+    document.getElementById("poems");
+
+
+poems.forEach(poem => {
+
+    const card = document.createElement("article");
+
+    card.className = "card";
+
+    card.innerHTML = `
+        <h2>${poem.id} · ${poem.title}</h2>
+
+        <div class="muted">
+            ${poem.author}
+        </div>
+
+        <div class="poem"></div>
+
+        <label>
+            Meine Beobachtungen
+
+            <textarea
+                class="observation"
+                data-poem="${poem.id}"
+                placeholder="Welche sprachlichen, inhaltlichen oder formalen Merkmale fallen dir auf?">
+            </textarea>
+        </label>
+    `;
+
+
+    const poemElement =
+        card.querySelector(".poem");
+
+
+    let verseNumber = 0;
+
+
+    poem.text.forEach(line => {
+
+        if (line === "") {
+
+            const spacer =
+                document.createElement("div");
+
+            spacer.style.height = "12px";
+
+            poemElement.appendChild(spacer);
+
+            return;
+        }
+
+
+        verseNumber++;
+
+
+        const verse =
+            document.createElement("div");
+
+        verse.className = "verse";
+
+
+        const number =
+            document.createElement("button");
+
+        number.className = "verse-number";
+
+        number.textContent =
+            verseNumber;
+
+        number.title =
+            "Ganzen Vers markieren";
+
+
+        number.addEventListener(
+            "click",
+            () => {
+
+                verse
+                    .querySelectorAll(".word")
+                    .forEach(word => {
+
+                        toggleWord(word);
+
+                    });
+
+            }
+        );
+
+
+        verse.appendChild(number);
+
+
+        /*
+         * Wir teilen den Vers in Wörter und Leerzeichen.
+         * Dadurch kann jedes einzelne Wort markiert werden.
+         */
+
+        const tokens =
+            line.split(/(\s+)/);
+
+
+        tokens.forEach(token => {
+
+            if (/^\s+$/.test(token)) {
+
+                verse.appendChild(
+                    document.createTextNode(token)
+                );
+
+                return;
+            }
+
+
+            const word =
+                document.createElement("button");
+
+            word.className = "word";
+
+            word.textContent = token;
+
+            word.type = "button";
+
+
+            word.addEventListener(
+                "click",
+                () => toggleWord(word)
+            );
+
+
+            verse.appendChild(word);
+
+        });
+
+
+        poemElement.appendChild(verse);
+
+    });
+
+
+    poemsContainer.appendChild(card);
+
+});
+
+
+/* ============================================================
+   MARKIERUNGEN
+   ============================================================ */
+
+function toggleWord(word) {
+
+    const colors = [
+        "yellow",
+        "blue",
+        "green",
+        "pink",
+        "purple",
+        "orange"
+    ];
+
+
+    /*
+     * Wenn das Wort bereits die ausgewählte Farbe besitzt,
+     * wird die Markierung entfernt.
+     */
+
+    if (word.classList.contains(selectedColor)) {
+
+        word.classList.remove(selectedColor);
+
+        return;
+    }
+
+
+    /*
+     * Alte Farbe entfernen.
+     */
+
+    colors.forEach(color => {
+
+        word.classList.remove(color);
+
+    });
+
+
+    /*
+     * Neue Farbe setzen.
+     */
+
+    word.classList.add(selectedColor);
+
+}
+
+
+/* ============================================================
+   FARBAUSWAHL
+   ============================================================ */
+
+document
+    .querySelectorAll(".color-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                selectedColor =
+                    button.dataset.color;
+
+
+                document
+                    .querySelectorAll(".color-button")
+                    .forEach(btn => {
+
+                        btn.classList.remove("selected");
+
+                    });
+
+
+                button.classList.add("selected");
+
+            }
+        );
+
+    });
+
+
+/* ============================================================
+   ZUORDNUNGEN ERZEUGEN
+   ============================================================ */
+
+const assignments =
+    document.getElementById("assignments");
+
+
+poems.forEach(poem => {
+
+    const card =
+        document.createElement("article");
+
+    card.className = "card";
+
+
+    const epochOptions =
+        epochs
+            .map(epoch =>
+                `<option value="${epoch}">
+                    ${epoch}
+                 </option>`
+            )
+            .join("");
+
+
+    card.innerHTML = `
+
+        <h3>
+            ${poem.id} · ${poem.title}
+        </h3>
+
+        <div class="muted">
+            ${poem.author}
+        </div>
+
+        <label>
+            Literaturepoche
+
+            <select
+                class="epoch-select"
+                data-poem="${poem.id}">
+
+                <option value="">
+                    Bitte wählen
+                </option>
+
+                ${epochOptions}
+
+            </select>
+        </label>
+
+
+        <label>
+            Unsere Begründung
+
+            <textarea
+                class="reason"
+                data-poem="${poem.id}"
+                placeholder="Vers ... zeigt ..., deshalb ordnen wir das Gedicht ... zu.">
+            </textarea>
+        </label>
+
+    `;
+
+
+    assignments.appendChild(card);
+
+});
+
+
+/* ============================================================
+   ZUSAMMENFASSUNG
+   ============================================================ */
+
+function updateSummary() {
+
+    const summary =
+        document.getElementById("summary");
+
+
+    summary.innerHTML = "";
+
+
+    poems.forEach(poem => {
+
+        const select =
+            document.querySelector(
+                `.epoch-select[data-poem="${poem.id}"]`
+            );
+
+
+        const reason =
+            document.querySelector(
+                `.reason[data-poem="${poem.id}"]`
+            );
+
+
+        const epoch =
+            select && select.value
+                ? select.value
+                : "Noch nicht zugeordnet";
+
+
+        const explanation =
+            reason && reason.value.trim()
+                ? reason.value.trim()
+                : "Noch keine Begründung eingetragen.";
+
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+
+        card.innerHTML = `
+
+            <h3>
+                ${poem.id} · ${poem.title}
+            </h3>
+
+            <p>
+                <strong>Zuordnung:</strong>
+                ${escapeHTML(epoch)}
+            </p>
+
+            <p>
+                ${escapeHTML(explanation)}
+            </p>
+
+        `;
+
+
+        summary.appendChild(card);
+
+    });
+
+}
+
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+function showSection(number) {
+
+    document
+        .querySelectorAll(".section")
+        .forEach(section => {
+
+            section.classList.remove("active");
+
+        });
+
+
+    const target =
+        document.getElementById(
+            "section" + number
+        );
+
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(tab => {
+
+            tab.classList.toggle(
+                "active",
+                tab.dataset.section === String(number)
+            );
+
+        });
+
+
+    /*
+     * Fortschrittsanzeige
+     */
+
+    const progress =
+        (number / 4) * 100;
+
+
+    document
+        .getElementById("progressBar")
+        .style.width = progress + "%";
+
+
+    if (number === 3) {
+        updateSummary();
+    }
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+document
+    .querySelectorAll("[data-section]")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                showSection(
+                    Number(button.dataset.section)
+                );
+
+            }
+        );
+
+    });
+
+
+document
+    .querySelectorAll("[data-next]")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                showSection(
+                    Number(button.dataset.next)
+                );
+
+            }
+        );
+
+    });
+
+
+/* ============================================================
+   AUTOMATISCH SPEICHERN
+   ============================================================ */
+
+function saveWork() {
+
+    const data = {
+
+        observations: {},
+
+        epochs: {},
+
+        reasons: {},
+
+        reflection:
+            document.getElementById(
+                "reflection"
+            ).value,
+
+        question:
+            document.getElementById(
+                "question"
+            ).value,
+
+        analysisPoem:
+            document.getElementById(
+                "analysisPoem"
+            ).value,
+
+        analysisPicture:
+            document.getElementById(
+                "analysisPicture"
+            ).value,
+
+        analysis:
+            document.getElementById(
+                "analysis"
+            ).value,
+
+        comparison:
+            document.getElementById(
+                "comparison"
+            ).value,
+
+        marks: {}
+
+    };
+
+
+    document
+        .querySelectorAll(".observation")
+        .forEach(element => {
+
+            data.observations[
+                element.dataset.poem
+            ] = element.value;
+
+        });
+
+
+    document
+        .querySelectorAll(".epoch-select")
+        .forEach(element => {
+
+            data.epochs[
+                element.dataset.poem
+            ] = element.value;
+
+        });
+
+
+    document
+        .querySelectorAll(".reason")
+        .forEach(element => {
+
+            data.reasons[
+                element.dataset.poem
+            ] = element.value;
+
+        });
+
+
+    /*
+     * Markierte Wörter speichern.
+     */
+
+    document
+        .querySelectorAll(".word")
+        .forEach((word, index) => {
+
+            const colors = [
+                "yellow",
+                "blue",
+                "green",
+                "pink",
+                "purple",
+                "orange"
+            ];
+
+
+            const color =
+                colors.find(c =>
+                    word.classList.contains(c)
+                );
+
+
+            if (color) {
+                data.marks[index] = color;
+            }
+
+        });
+
+
+    localStorage.setItem(
+        "literaturepochenArbeitsblatt",
+        JSON.stringify(data)
+    );
+
+
+    showSaveMessage();
+
+}
+
+
+/* ============================================================
+   DATEN LADEN
+   ============================================================ */
+
+function loadWork() {
+
+    const saved =
+        localStorage.getItem(
+            "literaturepochenArbeitsblatt"
+        );
+
+
+    if (!saved) {
+        return;
+    }
+
+
+    try {
+
+        const data =
+            JSON.parse(saved);
+
+
+        /*
+         * Beobachtungen
+         */
+
+        Object.entries(
+            data.observations || {}
+        ).forEach(([id, value]) => {
+
+            const element =
+                document.querySelector(
+                    `.observation[data-poem="${id}"]`
+                );
+
+
+            if (element) {
+                element.value = value;
+            }
+
+        });
+
+
+        /*
+         * Epochen
+         */
+
+        Object.entries(
+            data.epochs || {}
+        ).forEach(([id, value]) => {
+
+            const element =
+                document.querySelector(
+                    `.epoch-select[data-poem="${id}"]`
+                );
+
+
+            if (element) {
+                element.value = value;
+            }
+
+        });
+
+
+        /*
+         * Begründungen
+         */
+
+        Object.entries(
+            data.reasons || {}
+        ).forEach(([id, value]) => {
+
+            const element =
+                document.querySelector(
+                    `.reason[data-poem="${id}"]`
+                );
+
+
+            if (element) {
+                element.value = value;
+            }
+
+        });
+
+
+        /*
+         * Weitere Felder
+         */
+
+        document.getElementById(
+            "reflection"
+        ).value = data.reflection || "";
+
+
+        document.getElementById(
+            "question"
+        ).value = data.question || "";
+
+
+        document.getElementById(
+            "analysisPoem"
+        ).value = data.analysisPoem || "";
+
+
+        document.getElementById(
+            "analysisPicture"
+        ).value = data.analysisPicture || "";
+
+
+        document.getElementById(
+            "analysis"
+        ).value = data.analysis || "";
+
+
+        document.getElementById(
+            "comparison"
+        ).value = data.comparison || "";
+
+
+    } catch (error) {
+
+        console.error(
+            "Gespeicherte Daten konnten nicht geladen werden.",
+            error
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   SPEICHER-HINWEIS
+   ============================================================ */
+
+function showSaveMessage() {
+
+    const message =
+        document.getElementById("saveMessage");
+
+
+    message.style.display = "block";
+
+
+    setTimeout(() => {
+
+        message.style.display = "none";
+
+    }, 2000);
+
+}
+
+
+/* ============================================================
+   SPEICHERN-BUTTON
+   ============================================================ */
+
+document
+    .getElementById("saveButton")
+    .addEventListener(
+        "click",
+        saveWork
+    );
+
+
+/* ============================================================
+   DRUCKEN / PDF
+   ============================================================ */
+
+document
+    .getElementById("printButton")
+    .addEventListener(
+        "click",
+        () => {
+
+            window.print();
+
+        }
+    );
+
+
+/* ============================================================
+   AUTOMATISCHES SPEICHERN BEI ÄNDERUNGEN
+   ============================================================ */
+
+document.addEventListener(
+    "input",
+    () => {
+
+        /*
+         * Nicht bei jeder Eingabe sofort localStorage
+         * schreiben. Eine kurze Verzögerung verhindert
+         * unnötige Schreibvorgänge.
+         */
+
+        clearTimeout(window.saveTimer);
+
+        window.saveTimer =
+            setTimeout(
+                saveWork,
+                800
+            );
+
+    }
+);
+
+
+/* ============================================================
+   HTML ESCAPEN
+   ============================================================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+loadWork();
+
+showSection(1);
+
+</script>
+
+</body>
+</html>
